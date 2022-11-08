@@ -246,6 +246,9 @@
       "path": "./sources/coinpaprika"
     },
     {
+      "path": "./sources/coinpaprika-test"
+    },
+    {
       "path": "./sources/coinranking"
     },
     {
