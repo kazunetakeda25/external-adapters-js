@@ -26,7 +26,6 @@ export const makeEndpointSelector = <C>(
   upstreamEndpointName?: string,
 ): ((request: AdapterRequest) => APIEndpoint<C>) => {
   const upstreamConfig = makeUpstreamConfig()
-  console.log('Dummy change')
   return (request: AdapterRequest): APIEndpoint<C> => {
     const endpointName =
       upstreamEndpointName ?? request.data['method'] ?? upstreamConfig.defaultMethod
