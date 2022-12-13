@@ -8,3 +8,5 @@ const adapterContext = { name: NAME, rateLimit }
 
 const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
 export { NAME, makeExecute, makeConfig, server, endpoints }
+
+//This is a dummy change to for yarn workspaces to pull in the composite adapter
