@@ -2,7 +2,7 @@
 
 # Mode is either "readme" or anything else
 # When "readme" is passed, the script will echo a space seperated list of EAs to pass to `yarn generate:readme` (Ex: "coinmarketcap coinpaprika coingecko")
-# When anything else is passed, the script will return the build matrix output: ${adapter: [{name: "coingecko-adapter", "type": "sources"}, {name: "coinpaprika-adapter", "type": "sources"}]}
+# When anything else is passed, the script will return the build matrix output: {adapter: [{name: "coingecko-adapter", "type": "sources"}, {name: "coinpaprika-adapter", "type": "sources"}]}
 MODE=matrix
 UPSTREAM_BRANCH=develop
 BASE=$(yarn workspaces list -R --since="origin/$UPSTREAM_BRANCH" --json)
@@ -12,6 +12,7 @@ echo $BASE
 # Note, legos will ALWAYS change on any adapter change since it depends on all adapters
 # Modifications to legos are rare enough that we can ignore it if it's the only core change that appears in the diff
 CONTAINS_CORE_OR_SCRIPTS=$(echo "$BASE" | grep -E '(core)' | grep -v "core/legos")
+# TODO @ad0ll, scripts commented below to test
 #CONTAINS_CORE_OR_SCRIPTS=$(echo "$BASE" | grep -E '(core|scripts)' | grep -v "core/legos")
 if [[ -n $CONTAINS_CORE_OR_SCRIPTS ]]; then
   echo "BUILD_ALL"
@@ -19,7 +20,7 @@ if [[ -n $CONTAINS_CORE_OR_SCRIPTS ]]; then
 fi
 
 # Extract EAs from the `yarn workspaces` diff, then format them into build-matrix format while also handling
-# the string replacements
+# the string replacements. If MODE is matrix, this results in a JSON string in the format of: {adapter: [{name: "coingecko-adapter", "type": "sources"}, {name: "coinpaprika-adapter", "type": "sources"}]}
 OUTPUT=$(echo "$BASE" |
 jq '
 select(.location | match("(sources|composites|examples|non-deployable|targets)")) |
